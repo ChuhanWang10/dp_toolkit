@@ -32,7 +32,7 @@ def load_wav_soundfile(wavpath):
     return wav, sampling_rate
 
 def get_duration(wavpath, sampling_rate):
-    return librosa.get_duration(filename=wavpath, sr=sampling_rate)
+    return librosa.get_duration(path=wavpath, sr=sampling_rate)
 
 def detect_long_pauses(wavpath, threshold, pause_duration_threshold):
     # Load the audio file
@@ -76,11 +76,15 @@ def get_batch_duration(dirpath, sampling_rate=16000):
                 wavpath = os.path.join(root, file)
                 duration = get_duration(wavpath, sampling_rate)
                 total_duration += duration
-                print(f"total duration is: {total_duration / 60 / 60}")
+    print(f"total duration is: {total_duration / 60 / 60}")
     
     return total_duration
 
 if __name__ == '__main__':
-    folder_path = "/opt/share/common/db/audio_corpora/LibriSpeech_16k/train-clean-100/train-clean-100"
-    total_duration = get_batch_duration(folder_path)
-    print(total_duration)
+    # get sampling rate
+    # filepath = "/home/chuwan/data/LibriSpeech-R/LibriTTS_R/train-clean-100/19/198/19_198_000000_000000.wav"
+    # print(f"sampling rate: {get_sampling_rate(filepath)}")
+
+    # get batch duration
+    folder_path = "/home/chuwan/data/LibriTTS_R_16k/dev-clean"
+    print(f"total duration: {get_batch_duration(folder_path, sampling_rate=16000) / 60 / 60}")

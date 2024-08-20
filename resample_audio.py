@@ -42,12 +42,14 @@ def batch_resample(source_folder, target_folder, target_sr=16000):
                 
                 # Save the resampled file
                 sf.write(target_file_path, y_int, target_sr)
-                print(f"Resampled {file_path} to {target_file_path} with sampling rate {target_sr}")
+                #print(f"Resampled {file_path} to {target_file_path} with sampling rate {target_sr}")
+
+    print("Resampling all done!")
 
 if __name__ == '__main__':
-    source_folder = '/home/chuwan/experiments/knn-vc/zsvc_testing/vctk'  # Change to your source folder path
-    target_folder = '/home/chuwan/experiments/NeuCoSVC/test_data/vctk_24k'  # Change to your target folder path
-    sr = 24000 # Change to your target sampling rate
+    source_folder = '/opt/share/common/db/audio_corpora/LibriSpeech-R/LibriTTS_R/dev-clean'  # Change to your source folder path
+    target_folder = '/home/chuwan/data/LibriTTS_R_16k/dev-clean'  # Change to your target folder path
+    sr = 16000 # Change to your target sampling rate
 
     # Resample all .wav files in the source folder and save them to the target folder
     batch_resample(source_folder, target_folder, sr)
