@@ -47,9 +47,9 @@ def batch_resample(source_folder, target_folder, target_sr=16000):
     print("Resampling all done!")
 
 if __name__ == '__main__':
-    source_folder = '/opt/share/common/db/audio_corpora/LibriSpeech-R/LibriTTS_R/dev-clean'  # Change to your source folder path
-    target_folder = '/home/chuwan/data/LibriTTS_R_16k/dev-clean'  # Change to your target folder path
-    sr = 16000 # Change to your target sampling rate
+    source_folder = '/opt/share/common/db/audio_corpora/LibriSpeech-R/LibriTTS_R/test-clean'  # Change to your source folder path
+    target_folder = '/home/chuwan/data/LibriTTS_R_22k/dev-clean'  # Change to your target folder path
+    sr = 22000 # Change to your target sampling rate
 
     # Resample all .wav files in the source folder and save them to the target folder
     batch_resample(source_folder, target_folder, sr)

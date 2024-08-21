@@ -34,6 +34,32 @@ def load_wav_soundfile(wavpath):
 def get_duration(wavpath, sampling_rate):
     return librosa.get_duration(path=wavpath, sr=sampling_rate)
 
+def get_batch_duration(dirpath, sampling_rate=16000):
+    total_duration = 0
+    for root, dirs, files in os.walk(dirpath):
+        for file in files:
+            if file.lower().endswith('.wav'):
+                wavpath = os.path.join(root, file)
+                duration = get_duration(wavpath, sampling_rate)
+                total_duration += duration
+    print(f"total duration is: {total_duration / 60 / 60} hours")
+    
+    return total_duration
+
+def detect_short_audios(dirpath, threshold):
+    files_under_threshold = []
+    for root, dirs, files in os.walk(dirpath):
+        for file in files:
+            if file.lower().endswith('.wav'):
+                wavpath = os.path.join(root, file)
+                sampling_rate = librosa.get_samplerate(wavpath)
+                duration = get_duration(wavpath,sampling_rate)
+                if duration < threshold:
+                    print(f"{wavpath}: {duration} seconds")
+                    files_under_threshold.append(wavpath)
+    
+    print(f"{len(files_under_threshold)} files are shorter than {threshold} second.")
+
 def detect_long_pauses(wavpath, threshold, pause_duration_threshold):
     # Load the audio file
     audio_signal, sample_rate = librosa.load(wavpath, sr=None)
@@ -68,23 +94,15 @@ def detect_long_pauses(wavpath, threshold, pause_duration_threshold):
                 
     return total_length, pauses
 
-def get_batch_duration(dirpath, sampling_rate=16000):
-    total_duration = 0
-    for root, dirs, files in os.walk(dirpath):
-        for file in files:
-            if file.lower().endswith('.wav'):
-                wavpath = os.path.join(root, file)
-                duration = get_duration(wavpath, sampling_rate)
-                total_duration += duration
-    print(f"total duration is: {total_duration / 60 / 60}")
-    
-    return total_duration
-
 if __name__ == '__main__':
     # get sampling rate
     # filepath = "/home/chuwan/data/LibriSpeech-R/LibriTTS_R/train-clean-100/19/198/19_198_000000_000000.wav"
     # print(f"sampling rate: {get_sampling_rate(filepath)}")
 
     # get batch duration
-    folder_path = "/home/chuwan/data/LibriTTS_R_16k/dev-clean"
-    print(f"total duration: {get_batch_duration(folder_path, sampling_rate=16000) / 60 / 60}")
+    # folder_path = "/home/chuwan/data/LibriTTS_R_16k/dev-clean"
+    # print(f"total duration: {get_batch_duration(folder_path, sampling_rate=16000) / 60 / 60}")
+
+    # detect wav files shorter than a threshold
+    folder_path = "/home/chuwan/data/LibriTTS_R_16k/train-clean-100"
+    detect_short_audios(folder_path, threshold=0.2)
