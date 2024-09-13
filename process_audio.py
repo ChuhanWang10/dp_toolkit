@@ -99,10 +99,10 @@ if __name__ == '__main__':
     # filepath = "/home/chuwan/data/LibriSpeech-R/LibriTTS_R/train-clean-100/19/198/19_198_000000_000000.wav"
     # print(f"sampling rate: {get_sampling_rate(filepath)}")
 
-    # get batch duration
-    # folder_path = "/home/chuwan/data/LibriTTS_R_16k/dev-clean"
-    # print(f"total duration: {get_batch_duration(folder_path, sampling_rate=16000) / 60 / 60}")
+    #get batch duration
+    folder_path = "/home/chuwan/experiments/NeuCoSVC/data/LibriTTS_R_24k/train-clean-100"
+    print(f"total duration: {get_batch_duration(folder_path, sampling_rate=24000) / 60 / 60}")
 
     # detect wav files shorter than a threshold
-    folder_path = "/home/chuwan/data/LibriTTS_R_16k/train-clean-100"
-    detect_short_audios(folder_path, threshold=0.2)
+    # folder_path = "/home/chuwan/data/LibriTTS_R_16k/train-clean-100"
+    # detect_short_audios(folder_path, threshold=0.2)
