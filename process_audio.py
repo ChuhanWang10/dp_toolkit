@@ -8,8 +8,8 @@ from matplotlib import pyplot as plt
 import scipy
 
 # obtain the sampling rate of a wav
-def get_sampling_rate(filename):
-    with wave.open(filename, 'rb') as wav_file:
+def get_sampling_rate(filepath):
+    with wave.open(filepath, 'rb') as wav_file:
         sampling_rate = wav_file.getframerate()
         return sampling_rate
 
@@ -31,18 +31,19 @@ def load_wav_soundfile(wavpath):
     wav, sampling_rate = sf.read(wavpath)
     return wav, sampling_rate
 
-def get_duration(wavpath, sampling_rate):
+def get_duration(wavpath):
+    sampling_rate = get_sampling_rate(wavpath)
     return librosa.get_duration(path=wavpath, sr=sampling_rate)
 
-def get_batch_duration(dirpath, sampling_rate=16000):
+def get_batch_duration(dirpath):
     total_duration = 0
     for root, dirs, files in os.walk(dirpath):
         for file in files:
             if file.lower().endswith('.wav'):
                 wavpath = os.path.join(root, file)
-                duration = get_duration(wavpath, sampling_rate)
+                duration = get_duration(wavpath)
                 total_duration += duration
-    print(f"total duration is: {total_duration / 60 / 60} hours")
+    print(f"total duration: {total_duration:.2f} seconds, {total_duration/60:.2f} minutes")
     
     return total_duration
 
@@ -100,8 +101,9 @@ if __name__ == '__main__':
     # print(f"sampling rate: {get_sampling_rate(filepath)}")
 
     #get batch duration
-    folder_path = "/home/chuwan/experiments/NeuCoSVC/data/LibriTTS_R_24k/train-clean-100"
-    print(f"total duration: {get_batch_duration(folder_path, sampling_rate=24000) / 60 / 60}")
+    folder_path = "/home/chuwan/experiments/knn_vc_all_branches/main/knn-vc/zsvc_testing/rsvc_small/adam_syn"
+    print(f"total duration: {get_batch_duration(folder_path):.2f} seconds, {get_batch_duration(folder_path)/60:.2f} minutes")
+    
 
     # detect wav files shorter than a threshold
     # folder_path = "/home/chuwan/data/LibriTTS_R_16k/train-clean-100"

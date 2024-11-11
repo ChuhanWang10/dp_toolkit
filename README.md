@@ -1,6 +1,6 @@
 # Data processing toolkit
 
-This is a toolkit made by Chuhan for all types of data processing tasks.
+This is a toolkit for all types of data processing tasks.
 
 ## Environment setup
 

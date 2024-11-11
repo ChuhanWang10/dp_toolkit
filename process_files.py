@@ -155,9 +155,11 @@ if __name__ == '__main__':
     # num_cpus = os.cpu_count()
     # print(f"Number of CPUs: {num_cpus}")
 
-    wavlm_feat_folder = "/home/chuwan/experiments/NeuCoSVC/extracted_features/wavlm"
-    loudness_feat_folder = "/home/chuwan/experiments/NeuCoSVC/extracted_features/loudness"
-    print(count_files(wavlm_feat_folder), count_files(loudness_feat_folder))
-    diff = compare_folders(wavlm_feat_folder, loudness_feat_folder, target_folder=wavlm_feat_folder)
-    #remove_files(files_to_remove=diff, dirpath=wavlm_feat_folder)
+    folder1 = "/home/chuwan/experiments/knn_vc_all_branches/enhanced_features/knn-vc/prematched/LibriTTS_R_rsvc_real_L6"
+    folder2 = "/home/chuwan/experiments/knn_vc_all_branches/enhanced_features/knn-vc/prematched/LibriTTS_R_rsvc_real_L6_21"
+    print(count_files(folder1), count_files(folder2))
+    diff = compare_folders(folder1, folder2, target_folder=folder1)
+    #remove_files(files_to_remove=diff, dirpath=folder1)
 
+    # folder_path = "/home/chuwan/data/LibriTTS_R_16k/raw"
+    # print(count_files(folder_path))
