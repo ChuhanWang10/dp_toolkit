@@ -3,6 +3,11 @@ import librosa
 import shutil
 from process_audio import detect_short_audios, get_duration
 
+def read_file_by_lines(filepath):
+    with open(filepath, "r") as file:
+        lines = [line.rstrip() for line in file]
+    return lines
+
 def delete_short_wav_files(dirpath, threshold):
     """Delete the .wav files of which the duration is shorter than a threshold"""
 
