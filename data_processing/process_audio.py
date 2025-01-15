@@ -35,7 +35,7 @@ def get_duration(wavpath):
     sampling_rate = get_sampling_rate(wavpath)
     return librosa.get_duration(path=wavpath, sr=sampling_rate)
 
-def get_batch_duration(dirpath):
+def get_total_duration(dirpath):
     total_duration = 0
     for root, dirs, files in os.walk(dirpath):
         for file in files:
@@ -46,6 +46,51 @@ def get_batch_duration(dirpath):
     print(f"total duration: {total_duration:.2f} seconds, {total_duration/60:.2f} minutes")
     
     return total_duration
+
+def get_durations(dirpath):
+    from scipy.io import wavfile
+    """get a list of durations 
+    """
+
+    durations = []
+    for root, dirs, files in os.walk(dirpath):
+        for file in files:
+            if file.lower().endswith('.wav'):
+                wavpath = os.path.join(root, file)
+                duration = get_duration(wavpath)
+                durations.append(duration)
+    
+    return durations
+
+
+def plot_duration_distribution(durations, bin_size=1):
+    """plot the distribution of a list of durations
+
+    Args:
+        durations (list): a list of durations for each audio file in the dataset
+        bin_size (int, optional): bins for distribution in seconds. Default to 1 second
+    """
+    bins = np.arange(0, max(durations) + bin_size, bin_size)
+    total_files = len(durations)
+
+    plt.hist(durations, bins=bins, edgecolor='black', alpha=0.7)
+    plt.title(f"Duration Distribution of WAV Files (Total: {total_files})")
+    plt.xlabel("Duration (seconds)")
+    plt.ylabel("Number of Files")
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+    # Adding a text annotation
+    plt.text(
+        0.95, 0.95,
+        f"Total Files: {total_files}",
+        transform=plt.gca().transAxes,
+        fontsize=10,
+        verticalalignment='top',
+        horizontalalignment='right',
+        bbox=dict(facecolor='white', edgecolor='gray', boxstyle='round,pad=0.5')
+    )
+    
+    plt.show()
 
 def detect_short_audios(dirpath, threshold):
     files_under_threshold = []
@@ -100,9 +145,9 @@ if __name__ == '__main__':
     # filepath = "/home/chuwan/data/LibriSpeech-R/LibriTTS_R/train-clean-100/19/198/19_198_000000_000000.wav"
     # print(f"sampling rate: {get_sampling_rate(filepath)}")
 
-    #get batch duration
+    #get total duration
     folder_path = "/home/chuwan/experiments/knn_vc_all_branches/main/knn-vc/zsvc_testing/rsvc_small/adam_syn"
-    print(f"total duration: {get_batch_duration(folder_path):.2f} seconds, {get_batch_duration(folder_path)/60:.2f} minutes")
+    print(f"total duration: {get_total_duration(folder_path):.2f} seconds, {get_total_duration(folder_path)/60:.2f} minutes")
     
 
     # detect wav files shorter than a threshold
